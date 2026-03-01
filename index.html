@@ -144,6 +144,9 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     <div id="search-results" style="max-height:200px; overflow-y:auto; margin-top:10px;"></div>
   </div>
   <div id="info-btn" class="circle-btn" onclick="togglePanel('info-panel')">i</div>
+  <div id="jump-btn" class="circle-btn"
+       style="top:195px; right:15px; background:#ff9800; color:white;"
+       onclick="jumpToLocation()">📍</div>
   <div id="info-panel" onclick="this.style.display='none'">
     <strong>医療・介護施設マップ　　　　★閉じる★</strong><br>
     <span style="color:red;">★</span>病院
@@ -269,6 +272,71 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
 
     const layerGroups = {};
 
+// =====================================================
+// 📍 住所／緯度経度ジャンプ機能（既存構造完全維持型）
+// =====================================================
+    let inputMarker = null;
+
+    function jumpToLocation() {
+
+        const input = prompt(
+            "住所 施設または 緯度,経度 を入力してください\n例:\n品川区 〇〇区役所\n35.6094, 139.7303"
+        );
+
+        if (!input) return;
+
+        // 既存マーカー削除
+        if (inputMarker) {
+            map.removeLayer(inputMarker);
+            inputMarker = null;
+        }
+
+        // 緯度経度形式
+        if (input.includes(",")) {
+
+            const parts = input.split(",");
+            const lat = parseFloat(parts[0]);
+            const lng = parseFloat(parts[1]);
+
+            if (isNaN(lat) || isNaN(lng)) {
+                alert("緯度経度の形式が正しくありません");
+                return;
+            }
+
+            map.setView([lat, lng], 16);
+
+            inputMarker = L.marker([lat, lng]).addTo(map)
+                .bindPopup(input)
+                .openPopup();
+
+        } else {
+
+            fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}`
+            )
+            .then(res => res.json())
+            .then(data => {
+
+                if (!data || data.length === 0) {
+                    alert("住所が見つかりません");
+                    return;
+                }
+
+                const lat = parseFloat(data[0].lat);
+                const lng = parseFloat(data[0].lon);
+
+                map.setView([lat, lng], 16);
+
+                inputMarker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup(input)
+                    .openPopup();
+            })
+            .catch(() => {
+                alert("検索エラーが発生しました");
+            });
+        }
+    }    
+
     // 4. データ読み込み関数群
     function loadChome(idx) {
       fetch(`geo_0_町丁目境界${idx}.geojson`)
@@ -330,7 +398,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         .catch(err => console.error(err));
     }
 
-    fetch("geo_01_1.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_1.geojson").then(res => res.json()).then(data => {
         layerGroups["病院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -359,7 +427,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_2.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_2.geojson").then(res => res.json()).then(data => {
         layerGroups["診療所"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -388,7 +456,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_3.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_3.geojson").then(res => res.json()).then(data => {
         layerGroups["歯科"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -417,7 +485,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_4.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_4.geojson").then(res => res.json()).then(data => {
         layerGroups["助産院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -446,7 +514,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_5.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_5.geojson").then(res => res.json()).then(data => {
         layerGroups["薬局"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -475,7 +543,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_訪問介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_訪問介護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -504,7 +572,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_訪問入浴介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_訪問入浴介護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問入浴介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -533,7 +601,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_訪問看護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_訪問看護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問看護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -562,7 +630,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_訪問リハビリテーション.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_訪問リハビリテーション.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問リハビリテーション"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -591,7 +659,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -620,7 +688,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_通所介護（療養通所介護）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_通所介護（療養通所介護）.geojson").then(res => res.json()).then(data => {
         layerGroups["通所介護（療養通所介護）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -649,7 +717,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_通所リハビリテーション.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_通所リハビリテーション.geojson").then(res => res.json()).then(data => {
         layerGroups["通所リハビリテーション"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -678,7 +746,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_福祉用具貸与.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_福祉用具貸与.geojson").then(res => res.json()).then(data => {
         layerGroups["福祉用具貸与"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -707,7 +775,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_短期入所生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_短期入所生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -736,7 +804,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_短期入所療養介護（介護老人保健施設）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_短期入所療養介護（介護老人保健施設）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（介護老人保健施設）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -765,7 +833,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_短期入所療養介護（療養病床を有する病院等）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_短期入所療養介護（療養病床を有する病院等）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（療養病床を有する病院等）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -794,7 +862,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_短期入所療養介護（介護医療院）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_短期入所療養介護（介護医療院）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（介護医療院）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -823,7 +891,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_認知症対応型共同生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_認知症対応型共同生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["認知症対応型共同生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -852,7 +920,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（有料老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -881,7 +949,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（軽費老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -910,7 +978,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（サービス付き高齢者向け住宅）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -939,7 +1007,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -968,7 +1036,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -997,7 +1065,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1026,7 +1094,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_地域密着型特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_地域密着型特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（有料老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1055,7 +1123,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_地域密着型特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_地域密着型特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（軽費老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1084,7 +1152,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1113,7 +1181,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_特定福祉用具販売.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_特定福祉用具販売.geojson").then(res => res.json()).then(data => {
         layerGroups["特定福祉用具販売"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1142,7 +1210,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_居宅介護支援.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_居宅介護支援.geojson").then(res => res.json()).then(data => {
         layerGroups["居宅介護支援"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1171,7 +1239,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_介護老人福祉施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_介護老人福祉施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護老人福祉施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1200,7 +1268,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_介護老人保健施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_介護老人保健施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護老人保健施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1229,7 +1297,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_介護療養型医療施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_介護療養型医療施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護療養型医療施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1258,7 +1326,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_地域密着型介護老人福祉施設入所者生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_地域密着型介護老人福祉施設入所者生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型介護老人福祉施設入所者生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1287,7 +1355,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_介護医療院.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_介護医療院.geojson").then(res => res.json()).then(data => {
         layerGroups["介護医療院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1316,7 +1384,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_夜間対応型訪問介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_夜間対応型訪問介護.geojson").then(res => res.json()).then(data => {
         layerGroups["夜間対応型訪問介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1345,7 +1413,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_認知症対応型通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_認知症対応型通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["認知症対応型通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1374,7 +1442,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
         layerGroups["小規模多機能型居宅介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1403,7 +1471,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_定期巡回・随時対応型訪問介護看護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_定期巡回・随時対応型訪問介護看護.geojson").then(res => res.json()).then(data => {
         layerGroups["定期巡回・随時対応型訪問介護看護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1432,7 +1500,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_看護小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_看護小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
         layerGroups["看護小規模多機能型居宅介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
@@ -1461,7 +1529,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_01_地域密着型通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_22_地域密着型通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => new L.CustomMarker(latlng, {
                 renderer: myRenderer,
