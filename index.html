@@ -280,7 +280,14 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     function jumpToLocation() {
 
         const input = prompt(
-            "住所 施設または 緯度,経度 を入力してください\n例:\n品川区 〇〇区役所\n35.6094, 139.7303"
+            "【注意事項】\n
+             オープンストリートマップの検索は、精度が十分でない場合\n
+             があり、意図しない場所に移動することがあります。\n
+             あらかじめご了承ください。\n
+            【入力方法】\n
+           「住所」「施設名」または「緯度,経度」を入力してください。\n
+            （入力例） 品川区 ○○区役所  35.6094, 139.7303"
+
         );
 
         if (!input) return;
