@@ -103,7 +103,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
 
 </head>
 <body>
-  <div id="map-title-bar"><span id="main-title">北海道版</span> <span id="credit-title">© OpenStreetMap</span></div>
+  <div id="map-title-bar"><span id="main-title">浜松市版</span> <span id="credit-title">© OpenStreetMap</span></div>
   <div id="zoom-indicator">Zoom: --</div>
 
   <div id="text-config-panel">
@@ -140,26 +140,14 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     <label class="layer-item"><input type="radio" name="baseLayer" value="航空写真"> 航空写真(国土地理院)</label>
     <label class="layer-item"><input type="radio" name="baseLayer" value="国土地理院地図"> 国土地理院地図</label>
     <div class="section-title">境界線・施設種類</div>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界01"> 南渡島医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界02"> 南檜山医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界03"> 北渡島檜山医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界04"> 札幌医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界05"> 後志医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界06"> 南空知医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界07"> 中空知医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界08"> 北空知医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界09"> 西胆振医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界10"> 東胆振医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界11"> 日高医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界12"> 上川中部医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界13"> 富良野医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界14"> 留萌医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界15"> 宗谷医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界16"> 北網医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界17"> 遠紋医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界18"> 十勝医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界19"> 釧路医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界20"> 根室医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界01"> 賀茂医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界02"> 熱海伊東医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界03"> 駿東田方医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界04"> 富士医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界05"> 静岡医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界06"> 志太榛原医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界07"> 中東遠医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界08"> 西部医療圏</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="病院"> 病院</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="診療所"> 診療所</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="歯科"> 歯科</label>
@@ -294,7 +282,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     });
 
     const map = L.map('map', { 
-        center: [43.0644980006142, 141.34675180466928], zoom: 15, preferCanvas: true, zoomControl: false 
+        center: [34.710233985604596, 137.70251668848428], zoom: 15, preferCanvas: true, zoomControl: false 
     });
 
     // 追加：施設マーカー専用の最前面ペインを作成
@@ -2778,7 +2766,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    for(let i=1; i<=20; i++) { loadChome(i.toString().padStart(2, '0')); }
+    for(let i=1; i<=8; i++) { loadChome(i.toString().padStart(2, '0')); }
 
     document.querySelectorAll('.layer-toggle').forEach(cb => {
         cb.addEventListener('change', function() {
