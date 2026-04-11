@@ -103,7 +103,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
 
 </head>
 <body>
-  <div id="map-title-bar"><span id="main-title">浜松市版</span> <span id="credit-title">© OpenStreetMap</span></div>
+  <div id="map-title-bar"><span id="main-title">北海道版</span> <span id="credit-title">© OpenStreetMap</span></div>
   <div id="zoom-indicator">Zoom: --</div>
 
   <div id="text-config-panel">
@@ -140,14 +140,26 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     <label class="layer-item"><input type="radio" name="baseLayer" value="航空写真"> 航空写真(国土地理院)</label>
     <label class="layer-item"><input type="radio" name="baseLayer" value="国土地理院地図"> 国土地理院地図</label>
     <div class="section-title">境界線・施設種類</div>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界01"> 賀茂医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界02"> 熱海伊東医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界03"> 駿東田方医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界04"> 富士医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界05"> 静岡医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界06"> 志太榛原医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界07"> 中東遠医療圏</label>
-    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界08"> 西部医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界01"> 南渡島医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界02"> 南檜山医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界03"> 北渡島檜山医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界04"> 札幌医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界05"> 後志医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界06"> 南空知医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界07"> 中空知医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界08"> 北空知医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界09"> 西胆振医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界10"> 東胆振医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界11"> 日高医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界12"> 上川中部医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界13"> 富良野医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界14"> 留萌医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界15"> 宗谷医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界16"> 北網医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界17"> 遠紋医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界18"> 十勝医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界19"> 釧路医療圏</label>
+    <label class="layer-item"><input type="checkbox" class="layer-toggle" value="町丁目境界20"> 根室医療圏</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="病院"> 病院</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="診療所"> 診療所</label>
     <label class="layer-item"><input type="checkbox" class="layer-toggle" value="歯科"> 歯科</label>
@@ -282,7 +294,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     });
 
     const map = L.map('map', { 
-        center: [34.710233985604596, 137.70251668848428], zoom: 15, preferCanvas: true, zoomControl: false 
+        center: [43.0644980006142, 141.34675180466928], zoom: 15, preferCanvas: true, zoomControl: false 
     });
 
     // 追加：施設マーカー専用の最前面ペインを作成
@@ -646,7 +658,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         .catch(err => console.error(err));
     }
 
-    fetch("geo_22_1.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_1.geojson").then(res => res.json()).then(data => {
         layerGroups["病院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["病院"] || "circle";
@@ -699,7 +711,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_2.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_2.geojson").then(res => res.json()).then(data => {
         layerGroups["診療所"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["診療所"] || "circle";
@@ -752,7 +764,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_3.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_3.geojson").then(res => res.json()).then(data => {
         layerGroups["歯科"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["歯科"] || "circle";
@@ -805,7 +817,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_4.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_4.geojson").then(res => res.json()).then(data => {
         layerGroups["助産院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["助産院"] || "circle";
@@ -858,7 +870,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_5.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_5.geojson").then(res => res.json()).then(data => {
         layerGroups["薬局"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["薬局"] || "circle";
@@ -911,7 +923,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_訪問介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_訪問介護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["訪問介護"] || "circle";
@@ -964,7 +976,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_訪問入浴介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_訪問入浴介護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問入浴介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["訪問入浴介護"] || "circle";
@@ -1017,7 +1029,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_訪問看護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_訪問看護.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問看護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["訪問看護"] || "circle";
@@ -1070,7 +1082,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_訪問リハビリテーション.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_訪問リハビリテーション.geojson").then(res => res.json()).then(data => {
         layerGroups["訪問リハビリテーション"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["訪問リハビリテーション"] || "circle";
@@ -1123,7 +1135,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["通所介護"] || "circle";
@@ -1176,7 +1188,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_通所介護（療養通所介護）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_通所介護（療養通所介護）.geojson").then(res => res.json()).then(data => {
         layerGroups["通所介護（療養通所介護）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["通所介護（療養通所介護）"] || "circle";
@@ -1229,7 +1241,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_通所リハビリテーション.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_通所リハビリテーション.geojson").then(res => res.json()).then(data => {
         layerGroups["通所リハビリテーション"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["通所リハビリテーション"] || "circle";
@@ -1282,7 +1294,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_福祉用具貸与.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_福祉用具貸与.geojson").then(res => res.json()).then(data => {
         layerGroups["福祉用具貸与"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["福祉用具貸与"] || "circle";
@@ -1335,7 +1347,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_短期入所生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_短期入所生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["短期入所生活介護"] || "circle";
@@ -1388,7 +1400,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_短期入所療養介護（介護老人保健施設）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_短期入所療養介護（介護老人保健施設）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（介護老人保健施設）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["短期入所療養介護（介護老人保健施設）"] || "circle";
@@ -1441,7 +1453,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_短期入所療養介護（療養病床を有する病院等）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_短期入所療養介護（療養病床を有する病院等）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（療養病床を有する病院等）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["短期入所療養介護（療養病床を有する病院等）"] || "circle";
@@ -1494,7 +1506,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_短期入所療養介護（介護医療院）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_短期入所療養介護（介護医療院）.geojson").then(res => res.json()).then(data => {
         layerGroups["短期入所療養介護（介護医療院）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["短期入所療養介護（介護医療院）"] || "circle";
@@ -1547,7 +1559,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_認知症対応型共同生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_認知症対応型共同生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["認知症対応型共同生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["認知症対応型共同生活介護"] || "circle";
@@ -1600,7 +1612,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（有料老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（有料老人ホーム）"] || "circle";
@@ -1653,7 +1665,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（軽費老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（軽費老人ホーム）"] || "circle";
@@ -1706,7 +1718,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（サービス付き高齢者向け住宅）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（サービス付き高齢者向け住宅）"] || "circle";
@@ -1759,7 +1771,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（有料老人ホーム・外部サービス利用型）"] || "circle";
@@ -1812,7 +1824,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（軽費老人ホーム・外部サービス利用型）"] || "circle";
@@ -1865,7 +1877,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）.geojson").then(res => res.json()).then(data => {
         layerGroups["特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定施設入居者生活介護（サービス付き高齢者向け住宅・外部サービス利用型）"] || "circle";
@@ -1918,7 +1930,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_地域密着型特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_地域密着型特定施設入居者生活介護（有料老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（有料老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["地域密着型特定施設入居者生活介護（有料老人ホーム）"] || "circle";
@@ -1971,7 +1983,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_地域密着型特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_地域密着型特定施設入居者生活介護（軽費老人ホーム）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（軽費老人ホーム）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["地域密着型特定施設入居者生活介護（軽費老人ホーム）"] || "circle";
@@ -2024,7 +2036,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["地域密着型特定施設入居者生活介護（サービス付き高齢者向け住宅）"] || "circle";
@@ -2077,7 +2089,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_特定福祉用具販売.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_特定福祉用具販売.geojson").then(res => res.json()).then(data => {
         layerGroups["特定福祉用具販売"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["特定福祉用具販売"] || "circle";
@@ -2130,7 +2142,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_居宅介護支援.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_居宅介護支援.geojson").then(res => res.json()).then(data => {
         layerGroups["居宅介護支援"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["居宅介護支援"] || "circle";
@@ -2183,7 +2195,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_介護老人福祉施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_介護老人福祉施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護老人福祉施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["介護老人福祉施設"] || "circle";
@@ -2236,7 +2248,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_介護老人保健施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_介護老人保健施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護老人保健施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["介護老人保健施設"] || "circle";
@@ -2289,7 +2301,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_介護療養型医療施設.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_介護療養型医療施設.geojson").then(res => res.json()).then(data => {
         layerGroups["介護療養型医療施設"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["介護療養型医療施設"] || "circle";
@@ -2342,7 +2354,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_地域密着型介護老人福祉施設入所者生活介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_地域密着型介護老人福祉施設入所者生活介護.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型介護老人福祉施設入所者生活介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["地域密着型介護老人福祉施設入所者生活介護"] || "circle";
@@ -2395,7 +2407,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_介護医療院.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_介護医療院.geojson").then(res => res.json()).then(data => {
         layerGroups["介護医療院"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["介護医療院"] || "circle";
@@ -2448,7 +2460,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_夜間対応型訪問介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_夜間対応型訪問介護.geojson").then(res => res.json()).then(data => {
         layerGroups["夜間対応型訪問介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["夜間対応型訪問介護"] || "circle";
@@ -2501,7 +2513,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_認知症対応型通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_認知症対応型通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["認知症対応型通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["認知症対応型通所介護"] || "circle";
@@ -2554,7 +2566,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
         layerGroups["小規模多機能型居宅介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["小規模多機能型居宅介護"] || "circle";
@@ -2607,7 +2619,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_定期巡回・随時対応型訪問介護看護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_定期巡回・随時対応型訪問介護看護.geojson").then(res => res.json()).then(data => {
         layerGroups["定期巡回・随時対応型訪問介護看護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["定期巡回・随時対応型訪問介護看護"] || "circle";
@@ -2660,7 +2672,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_看護小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_看護小規模多機能型居宅介護.geojson").then(res => res.json()).then(data => {
         layerGroups["看護小規模多機能型居宅介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["看護小規模多機能型居宅介護"] || "circle";
@@ -2713,7 +2725,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    fetch("geo_22_地域密着型通所介護.geojson").then(res => res.json()).then(data => {
+    fetch("geo_01_地域密着型通所介護.geojson").then(res => res.json()).then(data => {
         layerGroups["地域密着型通所介護"] = L.geoJSON(data, {
             pointToLayer: (f, latlng) => {
                 const shape = shapeMap["地域密着型通所介護"] || "circle";
@@ -2766,7 +2778,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    for(let i=1; i<=8; i++) { loadChome(i.toString().padStart(2, '0')); }
+    for(let i=1; i<=20; i++) { loadChome(i.toString().padStart(2, '0')); }
 
     document.querySelectorAll('.layer-toggle').forEach(cb => {
         cb.addEventListener('change', function() {
