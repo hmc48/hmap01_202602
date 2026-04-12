@@ -19,7 +19,7 @@
 body { margin:0; padding:0; overflow:hidden; font-family: sans-serif; }
 #map { height:100vh; width:100vw; z-index:1; }
 #map-title-bar {
-  position: fixed; top: 10px; left: 50px; z-index: 4000;
+  position: fixed; top: 10px; left: 10px; z-index: 4000;
   background: #ffe4e1; padding: 5px 12px; border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3); color: black;
   display: flex; align-items: baseline; white-space: nowrap; pointer-events: none;
@@ -72,10 +72,11 @@ input[type="checkbox"], input[type="radio"] { margin-right: 10px; transform: sca
 
 /* 追加：テキスト設定パネルのスタイル */
 #text-config-panel {
-  display:none; position:fixed; left:60px; top:200px; 
+  display:none; position:fixed; right:70px; top:255px; /* 右側に出るように変更 */
   background:white; padding:10px; border-radius:8px; z-index:4000;
   box-shadow:0 2px 10px rgba(0,0,0,0.2); width: 180px;
 }
+
 .config-item { margin-bottom: 8px; font-size: 12px; }
 .config-item label { display: block; font-weight: bold; margin-bottom: 3px; }
 .config-item input, .config-item select { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
@@ -93,6 +94,12 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     .leaflet-facilityPane-pane .custom-svg-icon {
       pointer-events: auto !important;
       cursor: pointer !important;
+    }
+
+    /* ★追加 */
+    /* ★追加 */
+    .leaflet-top.leaflet-right {
+      margin-top: 255px;
     }
 
     /* 図形描画レイヤーをマーカーより下に配置 */
@@ -236,6 +243,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     検索機能(and検索)<br>
     and検索の例:内科 秋葉原　診療所<br>
     人口表示（境界線表示時）<br>
+    線、四角形、多角形、円の描写、テキスト入力<br>
     【利用規約・ご意見・ご感想・お問い合わせ】<br>
     他都道府県は下記サイトへ<br>
     本ツールは以下のサイトで作成しています。<br>
@@ -293,6 +301,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         }
     });
 
+    // 緯度経度指定　各都道府県庁所在地
     const map = L.map('map', { 
         center: [43.0644980006142, 141.34675180466928], zoom: 15, preferCanvas: true, zoomControl: false 
     });
@@ -328,7 +337,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
     });
 
     map.pm.addControls({
-      position: 'topleft',
+      position: 'topright',
       drawCircleMarker: false,
       drawText: false,
       rotateMode: false,
@@ -384,7 +393,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
 
     // 追加：文字入力起動アイコン と カラーパレット（位置調整版）
     const CustomActionControl = L.Control.extend({
-      options: { position: 'topleft' },
+      options: { position: 'topright' },
       onAdd: function() {
         const container = L.DomUtil.create('div', 'leaflet-bar');
         
@@ -2778,7 +2787,7 @@ button.menu-sub-btn { flex: 1; padding: 8px; font-size: 11px; cursor: pointer; }
         });
     }).catch(e => {});
     
-    for(let i=1; i<=20; i++) { loadChome(i.toString().padStart(2, '0')); }
+    for(let i=1; i<=8; i++) { loadChome(i.toString().padStart(2, '0')); }
 
     document.querySelectorAll('.layer-toggle').forEach(cb => {
         cb.addEventListener('change', function() {
